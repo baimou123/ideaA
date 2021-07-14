@@ -1,4 +1,4 @@
-package com.bai.stringclazz;
+package com.bai.a01stringclazz;
 /*
 * 测试String类的性能，总结：频繁修改字符串，会造成性能损失，需要StringBuffer/Build
 * 频繁修改字符串，会造成内存溢出的错误..

@@ -1,4 +1,4 @@
-package com.bai.stringclazz;
+package com.bai.a01stringclazz;
 /*
 * StringBuilder(线程不安全，速度快)/Buffer(线程安全的，速度稍微慢)解决  字符串频繁修改的问题
 * 意思是String升级了

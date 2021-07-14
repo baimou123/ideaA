@@ -1,4 +1,4 @@
-package com.bai.stringclazz;
+package com.bai.a01stringclazz;
 
 public class StringDemo01 {
     public static void main(String[] args) {

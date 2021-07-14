@@ -16,7 +16,7 @@ public class StringBuilderDemo01 {
         sb.append(",为了找一份优质的工作");
         System.out.println("sb = " + sb);
         //2.修改  为了找一份优质的工作 改为  为了改变世界
-        sb.replace(10,19,"为了改变世界");
+        sb.replace(10,20,"为了改变世界");
         System.out.println("sb = " + sb);
         //3.删除
         sb.deleteCharAt(1);//删除指定的字符

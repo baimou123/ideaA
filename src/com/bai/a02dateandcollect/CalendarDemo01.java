@@ -24,7 +24,7 @@ public class CalendarDemo01 {
         /*calendar.add(Calendar.MONTH,1);
         System.out.println("calendar.getTime() = " + calendar.getTime());*/
         //加天
-        //alendar.add(Calendar.DAY_OF_YEAR,1);
+        //calendar.add(Calendar.DAY_OF_YEAR,1);
         //System.out.println("calendar.getTime() = " + calendar.getTime());
         //calendar.add(Calendar.DAY_OF_YEAR,-1);
         //比如  设置当周的周五日期  指定的  日期

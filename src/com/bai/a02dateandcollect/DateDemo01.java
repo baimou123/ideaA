@@ -33,7 +33,7 @@ public class DateDemo01 {
         String chinaDateStr=sdf.format(date);
         System.out.println("chinaDateStr = " + chinaDateStr);
         //字符串 ----->  转日期
-        String dateStr="2018-09-97 23:13:45";
+        String dateStr="2018/09/02 23:13:45";
         try {
             Date parse = sdf.parse(dateStr);
             System.out.println("parse = " + parse);

@@ -13,10 +13,7 @@ public class Test1 {
                 System.out.println(string+"我是Java文件");
             }
         }
-        for (String string : arr) {
-            if(string.endsWith(".class")) {
-                System.out.println(string+"我是class文件");
-            }
+
            /* long size = 0;
             File file =new File(".");
             File[] files=file.listFiles();

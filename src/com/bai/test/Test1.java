@@ -12,7 +12,7 @@ public class Test1 {
             if(string.endsWith(".java")) {   //
                 System.out.println(string+"我是Java文件");
             }
-        }
+
 
            /* long size = 0;
             File file =new File(".");

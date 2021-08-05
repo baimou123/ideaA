@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="layui-v2.5.6/layui/layui.js"></script>
+    <link rel="stylesheet" href="layui-v2.5.6/layui/css/layui.css">
+</head>
+<body>
+      <table class="layui-hide" id="test" lay-filter="test"></table>
+      <script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button type="button" class="layui-btn layui-btn-lg layui-bg-green " style="margin-left: 10px;">新增数据</button>
+        <button type="button" class="layui-btn layui-btn-lg layui-bg-green " style="margin-left: 10px;">获取选中行数据</button>
+        <button type="button" class="layui-btn layui-btn-lg layui-bg-green " style="margin-left: 10px;">获取选中数目</button>
+        <button type="button" class="layui-btn layui-btn-lg layui-bg-green " style="margin-left: 10px;">验证是否全选</button>
+
+    </div>
+      </script>
+ <script type="text/html" id="userBar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="detail">查看</button>
+        <button class="layui-btn layui-btn-sm" lay-event="edit">编辑</button>
+        <button class="layui-btn layui-btn-danger  layui-btn-sm" lay-event="changeStu">删除</button>
+    </div>
+  </script>
+<script type="text/html" id="switchTpl">
+    <input type="checkbox" name="isRepair"  lay-skin="switch" lay-text="通过|不通过" lay-filter="RepairDemo" >
+  </script>
+  <script type="text/html" id="checkboxTpl">
+    <input type="checkbox" name="isRetest"  title="已复测" lay-filter="RetestDemo"checked="true" >
+  </script>
+  <script type="text/html" id="feedback">
+    <input type="checkbox" name="isfeedback" title="已反馈" lay-filter="feedbackDemo" checked="true">
+  </script>
+  <script type="text/html" id="notaic">
+    <input type="checkbox" name="isnotaic"  title="已下发" lay-filter="notaicDemo" checked="true" >
+  </script>
+    <script>
+        layui.use(['form','table','util','jquery','layer'], function (args) {
+            var form = layui.form;
+            var table = layui.table;
+            var util = layui.util;
+            var $ = layui.jquery;
+            var layer = layui.layer;
+            table.render({
+                elem: '#test'
+                //,url:'/test/table/demo1.json'
+                , url: '/TableServlet'
+                , toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+                , defaultToolbar: ['filter', 'exports', 'print', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
+                    title: '提示'
+                    , layEvent: 'LAYTABLE_TIPS'
+                    , icon: 'layui-icon-tips'
+                }]
+                , title: '用户数据表'
+                , cols: [[//表头
+                    {type: 'checkbox', fixed: 'left'}
+                    , {field: 'id', width: 50, title: '序号', sort: true}
+                    , {field: 'bid', width: 50, title: '编号', sort: true}
+                    , {field: 'xtname', width: 100, title: '系统名称', sort: true}
+                    , {field: 'number', width: 80, title: '个数', sort: true}
+                    , {field: 'level', width: 80, title: '级别', sort: true}
+                    , {field: 'bugurl', width: 200, title: '漏洞域名', sort: true}
+                    , {field: 'bugtype', width: 200, title: '漏洞类型', sort: true}
+                    , {field: 'isnotice', width: 150, title: '是否通知', sort: true, templet: '#notaic'}
+                    , {field: 'isfeedback', width: 150, title: '是否反馈', sort: true, templet: '#feedback'}
+                    , {field: 'isRetest', width: 150, title: '是否复测', sort: true, templet: '#checkboxTpl'}
+                    , {field: 'department', width: 50, title: '部'}
+                    , {field: 'isRepair', width: 100, title: '是否修复', sort: true, templet: function (d) {
+                            if (d.isRepair) {
+                                return "<input type=\"checkbox\" checked=\"\" name=\"open\" lay-skin=\"switch\" lay-filter=\"switchTest\"  lay-text=\"修复|不修复\" value='修复' >";
+                            } else {
+
+                                return "<input type=\"checkbox\" name=\"close\" lay-skin=\"switch\" lay-filter=\"switchTest\" lay-text=\"修复|不修复\" value='不修复'  > ";
+
+                            }
+                        }
+                    }
+                    , {
+                        field: 'operation',
+                        width: 100,
+                        title: '操作',
+                        sort: true,
+                        align: 'center',
+                        width: 200,
+                        toolbar: '#userBar'
+                    }//toolbar表示这一列是一个行内工具栏
+                ]]
+
+            })
+        form.on('checkbox(notaicDemo)', function(data){
+            console.log(data.elem); //原始DOM对象
+            console.log(data.value); //被选中的值
+            console.log(data.othis); //美化后的DOM对象
+            if(data.elem.checked){
+        //  layer.tips('测试按钮开关的tips开关');
+            layer.alert('修改为:已下发',{icon:1});
+
+            }else{
+            layer.alert('修改为:未下发',{icon:2});
+            }
+
+});
+            //监听指定开关
+            form.on('switch(switchTest)', function(data){
+                if(data.elem.checked){
+               //  layer.tips('测试按钮开关的tips开关');
+                    layer.alert('修改为:已修复',{icon:1});
+
+                }else{
+                    layer.alert('修改为:未修复',{icon:2});
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

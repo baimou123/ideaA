@@ -10,10 +10,7 @@ import org.junit.Test;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MybatisTest {
     private SqlSession sqlSession;  //讲一下 mybatis的执行流程？？？
@@ -170,4 +167,78 @@ public class MybatisTest {
         sqlSession.commit();
         sqlSession.close();
     }
+    //删除
+    @Test
+    public void test14(){
+        int i = sqlSession.delete("com.bai.dao.PersonDao.deletePersonById", 16);
+        System.out.println("i = " + i);
+        sqlSession.commit();
+        sqlSession.close();
+    }
+
+    //动态sql:重点，难点，也是高薪的起点。
+    //动态sql其实就是 让达到1条xml中的语句可以实现 N多种查询。
+    //那么 要实现多种查询，就有硬性的条件！你的参数要多，参数要多》》1.放弃单个属性（int，String），改用实体类 2.参数改用map
+    //今天所学的 推到 昨天所学的。那么就需要 总结昨天所学的。
+
+    //第一类，特征 1） 返回值====》 正常表的结果集，对应的是 person实体类
+    //           2）都是select * from person 开头的
+    //1.1 select * from person  if如果where后面没参数那么就是全查
+    //1.2 select <include refid="birthdayColumn"/> from person where gender = #{gender} if如果where后面参数是gender 那么就是单查gender
+    //1.3 select * from person where gender=#{gender} and birthday<#{birthday}
+    //1.4 select * from person where name like "%"#{name}"%"
+    //1-4 可以 合N为1 ，只需要把where后面的参数做个 if判断
+
+    //第二类：特征1） 返回值===》是一个数，单行单列 非person实体类，是一个数据类型
+    //          2）都是select count(*) from person 开头的
+    //2.1 select count(*) from person
+    //2.2 select count(*) from person where sex=2 and score>100
+
+    //综上所述！！ 以上sql 可以进行动态判断 形成一个sql！！ 这就叫做动态sql。
+
+    //动态查询
+    @Test
+    public void test15(){
+        Person person=new Person();
+        //null是全查
+        //person.setId(16); //select * from person p where p.id=?
+        person.setScore(200);
+        person.setGender(2);//select * from person p where p.gender=? and p.score>?
+        List<Person> personList = sqlSession.selectList("com.bai.dao.PersonDao.dongTaiSelect", person);
+        for (Person person1 : personList) {
+            System.out.println(person1);
+        }
+    }
+    //动态修改，其实就是有选择性修改多个字段，比如 可以修改女孩子 分数,日期等等。。。
+    @Test
+    public void test16(){
+        Person person=new Person();
+        person.setId(16);
+        person.setAddress("英国");
+        person.setBirthday(new Date());
+        int i = sqlSession.update("com.bai.dao.PersonDao.dongTaiUpdate", person);
+        System.out.println("i = " + i);
+        sqlSession.commit();
+        sqlSession.close();
+    }
+
+    //批量删除
+    //构造1个ids
+    @Test
+    public void test17(){
+        List<Integer> idList=new ArrayList<>();
+        idList.add(1);
+        idList.add(2);
+        idList.add(3);
+        idList.add(4);
+        Map map=new HashMap();
+        map.put("ids",idList);
+        int delete = sqlSession.delete("com.bai.dao.PersonDao.piLiangDel", map);
+        System.out.println("delete = " + delete);
+        sqlSession.commit();
+        sqlSession.close();
+    }
+    //以上代码 不用手写，因为谁写谁垃圾。
+    //xml 不需要你写！！！ DAO不需要你写
+    //但是需要你能看得懂。
 }

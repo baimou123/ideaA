@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sysLog全查</title>
+    <link rel="stylesheet" href="/element-ui-2.13.2.css">
+    <script src="/vue.js"></script>
+    <script src="/element-ui-2.13.2.js"></script>
+    <script src="/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <template>
+        <el-table
+                :data="tableData"
+                style="width: 100%">
+            <el-table-column
+                    prop="userSession"
+                    label="用户会话"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="eventType"
+                    label="类型"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="categoryId"
+                    label="号码"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="userId"
+                    label="用户id"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="productId"
+                    label="产品id"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="addressName"
+                    label="地址"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="eventTime"
+                    label="活动时间"
+                    width="180">
+            </el-table-column>
+        </el-table>
+    </template>
+</div>
+
+<script>
+    var vm  = new Vue({
+        el:"#app",
+        data:{
+            tableData: []
+        },
+        methods:{},
+        created:function () {
+            // 页面一加载就要访问url  /student/selectAll
+            axios.get("/syslog/selectAll").then( res=>{
+                console.log(res)
+                // 把 json 数组 赋值给  tableData
+                this.tableData=res.data.data
+            });
+        }
+    });
+</script>
+</body>
+</html>

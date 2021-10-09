@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sessionLog全查</title>
+    <link rel="stylesheet" href="/element-ui-2.13.2.css">
+    <script src="/vue.js"></script>
+    <script src="/element-ui-2.13.2.js"></script>
+    <script src="/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <template>
+        <el-table
+                :data="tableData"
+                style="width: 100%">
+            <el-table-column
+                    prop="actionTime"
+                    label="开始时间"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="userid"
+                    label="用户姓名"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="pageid"
+                    label="页面id"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="sessionid"
+                    label="表id"
+                    width="180">
+            </el-table-column>
+        </el-table>
+    </template>
+</div>
+
+<script>
+    var vm  = new Vue({
+        el:"#app",
+        data:{
+            tableData: []
+        },
+        methods:{},
+        created:function () {
+            // 页面一加载就要访问url  /student/selectAll
+            axios.get("/sessionlog/selectAll").then( res=>{
+                console.log(res)
+                // 把 json 数组 赋值给  tableData
+                this.tableData=res.data.data
+            });
+        }
+    });
+</script>
+</body>
+</html>

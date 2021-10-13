@@ -15,4 +15,14 @@ public class PageController {
     public String login(){
         return "login";
     }
+
+    @RequestMapping("/regist") // /page/regist
+    public String regist(){
+        return "regist";
+    }
+
+    @RequestMapping("/reg") // /page/reg
+    public String reg(){
+        return "reg";
+    }
 }

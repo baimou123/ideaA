@@ -8,12 +8,13 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
+import java.util.*;
 
 /*
 * 自定义的和mybatis数据库结合的realm
@@ -29,8 +30,28 @@ public class MybatisRealm extends AuthorizingRealm {
     //授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-
-        return null;
+        //写授权！！ 查询3表 可得到 角色和权限。。。、
+        //第一个：拿到account
+        String principal =(String) principalCollection.getPrimaryPrincipal();
+        Map map=new HashMap<>();
+        map.put("adminAccount",principal);
+        List<Map> maps = adminService.selectMore(map);
+        //maps包含了 角色名称 ，权限名称
+        HashSet<String> roleNames = new HashSet<>();
+        List perms=new ArrayList();
+        for (Map map1 : maps) {
+            String roleName = (String) map1.get("roleName");
+            String qxPerms = (String) map1.get("qxName");
+            //循环遍历到 roleNames集合中
+            roleNames.add(roleName);
+            perms.add(qxPerms);
+        }
+        //把角色和权限给与 登录的账户
+        SimpleAuthorizationInfo info=new SimpleAuthorizationInfo();
+        info.addRoles(roleNames);
+        info.addStringPermissions(perms);
+        return info;  //触发 授权： 1.界面UI触发，适用于单体项目  2.java方法注解触发，适用于 前后端分离 3.不常用的，自己硬编码触发
+        //界面触发要用到aop和jar包支持。
     }
 
     //认证 登录

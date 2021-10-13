@@ -1,10 +1,14 @@
 package com.xiexin.shiro;
 
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.realm.Realm;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -50,10 +54,45 @@ public class ShiroConfig {
         // 不拦截的页面！！！
         map.put("/page/login","anon");  // anon 匿名的 ， 任何请求都可以  去访问
         map.put("/admin/loginByShiro","anon"); // 登录的方法也不拦截
+        map.put("/page/studentList","anon");
+        map.put("/page/reg","anon");
+        map.put("/admin/reg","anon");
+        map.put("/vue.js","anon");
+        map.put("/element-ui-2.13.2.js","anon");
+        map.put("/axios.min.js","anon");
+        map.put("/element-ui-2.13.2.css","anon");
         map.put("/*/**","authc");   // authc 需要登录
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map); // 把 拦截的 顺序放入到 linkedmap中！！
         return shiroFilterFactoryBean;
     }
 
+    //开启 权限aop的支持
+    /**
+     * 开启shiro aop注解支持.
+     * 使用代理方式;所以需要开启代码支持;
+     * @Author:      谢欣
+     * @UpdateUser:
+     * @Version:     0.0.1
+     * @param securityManager
+     * @return       org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor
+     * @throws
+     */
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(org.apache.shiro.mgt.SecurityManager securityManager) {
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+        return authorizationAttributeSourceAdvisor;
+    }
+    @Bean
+    @ConditionalOnMissingBean
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+        defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
+        return defaultAdvisorAutoProxyCreator;
+    }
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
+    }
 
 }

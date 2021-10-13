@@ -2,8 +2,10 @@ package com.xiexin.dao;
 
 import com.xiexin.bean.Admin;
 import com.xiexin.bean.AdminExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 public interface AdminDAO {
     long countByExample(AdminExample example);
@@ -27,4 +29,8 @@ public interface AdminDAO {
     int updateByPrimaryKeySelective(Admin record);
 
     int updateByPrimaryKey(Admin record);
+
+    //五张表 权限 连续查看。。
+    //N张表的 返回值是个啥！！！ map List<map>
+    List<Map> selectMore(Map map);
 }

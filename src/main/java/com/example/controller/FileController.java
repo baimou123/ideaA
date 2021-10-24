@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @date 2021/3/17 10:16
@@ -29,12 +30,12 @@ public class FileController {
      * @return
      */
     @PostMapping("/upload")
-    public Result<String> upload(MultipartFile file) {
-        String filePath = System.getProperty("user.dir") + "/src/main/resources/static/file/";
-        String flag = System.currentTimeMillis() + "";
-        String fileName = file.getOriginalFilename();
+    public Result<String> upload(MultipartFile file) {  //MultipartFile 指的是前端 文件
+        String filePath = System.getProperty("user.dir") + "/src/main/resources/static/file/";  //文件的路径
+        String flag = System.currentTimeMillis() + ""+ UUID.randomUUID();  //当前时间的long值创建一个 新的名称
+        String fileName = file.getOriginalFilename();  //后缀名
         try {
-            FileUtil.writeBytes(file.getBytes(), filePath + flag + "-" + fileName);
+            FileUtil.writeBytes(file.getBytes(), filePath + flag + "-" + fileName);  //开始上传了
             System.out.println(fileName + "--上传成功");
             Thread.sleep(1L);
         } catch (Exception e) {

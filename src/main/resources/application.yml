@@ -4,8 +4,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: root
-    url: jdbc:mysql://localhost:3306/医美重构?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8
+    password: 123
+    url: jdbc:mysql://localhost:3306/meirong?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8
     type: com.alibaba.druid.pool.DruidDataSource
   jpa:
     generate-ddl: false
@@ -13,8 +13,18 @@ spring:
       ddl-auto: none
   servlet:
     multipart:
-      max-file-size: 100MB
-      max-request-size: 100MB
+      max-file-size: 20MB
+      max-request-size: 20MB
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+      exclude: WEB-INF/**
+
+
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+
+  #本项目是一个springBoot + vue + mybatis 的一个 脚手架。 集成了 权限系统（不是shiro，是自己手写打的），代码生成器，图片上传，登录，注册 功能！！！
+

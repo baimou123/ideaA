@@ -24,7 +24,11 @@ public class UserService extends ServiceImpl<UserMapper, User> {
     @Resource
     private RoleService roleService;
 
+    //登录！！
     public User login(User user) {
+        //课下去B站学习 lambda表达式。
+        //Wrappers 就是一个查询条件 类似 example类
+        //sql = select * from admin where xxx=xx and pwd=pwd ...
         LambdaQueryWrapper<User> queryWrapper = Wrappers.<User>lambdaQuery().eq(User::getUsername, user.getUsername()).eq(User::getPassword, user.getPassword());
         User one = getOne(queryWrapper);
         if (one == null) {
@@ -42,6 +46,7 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         if (user.getPassword() == null) {
             user.setPassword("123456");
         }
+        //登录成功后，给与一个权限
         save(user);
         return getOne((Wrappers.<User>lambdaQuery().eq(User::getUsername, user.getUsername())));
     }

@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 
-
-@TableName("t_permission")
+//这个实体类是 用 mybatis-plus 生成器生成的
+@TableName("t_permission")  //在 mybatis - plus 中 TableName 和数据的 表明保持一致！！
 public class Permission extends Model<Permission> {
     /**
-      * 主键
+      * 主键   在 mybatis - plus 中 TableId 就是主键的注解
       */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;

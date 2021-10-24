@@ -22,15 +22,15 @@ import java.util.Map;
 public class MybatisCodeGenerator {
     private static final DruidDataSource ds = new DruidDataSource();
 
-    private static final String schemaName = "代码自动生成vue版本2";   // 数据库名称，必填
-    private static final String[][] tables = {{"goods", "Goods"}};   // 必填
-    private static final String modelName = "商品";   // 必填
+    private static final String schemaName = "meirong";   // 数据库名称，必填
+    private static final String[][] tables = {{"setmealGroup", "SetmealGroup"}};   // 必填
+    private static final String modelName = "美容套餐中间表";   // 必填
 
     static {
         // 必填
         ds.setUrl("jdbc:mysql://localhost:3306/" + schemaName + "?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8");
         ds.setUsername("root");
-        ds.setPassword("root");
+        ds.setPassword("123");
     }
 
     private static final String BaseFilePath = System.getProperty("user.dir") + "/src/main/java/com/example/";

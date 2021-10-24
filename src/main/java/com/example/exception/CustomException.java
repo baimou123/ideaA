@@ -1,5 +1,6 @@
 package com.example.exception;
 
+//自定义异常
 public class CustomException extends RuntimeException {
     private String code;
     private String msg;

@@ -22,6 +22,8 @@ public class Role extends Model<Role> {
 
     private String description;
 
+    //在mybatisplus 中 该注解是 把数据库中的数组 变成json
+    //[{"id":26,"name":"项目管理","path":"/page/end/item.html","description":"单个美容项目的管理与操作","flag":"item"},{"id":27,"name":"项目组管理","path":"/page/end/itemGroup.html","description":"一组同类的项目的分组","flag":"itemGroup"}]
     @TableField(typeHandler = JacksonTypeHandler.class)
     private List<Permission> permission;
 
